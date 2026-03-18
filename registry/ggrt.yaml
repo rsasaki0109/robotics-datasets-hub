@@ -1,0 +1,23 @@
+name: ggrt
+display_name: "GGRt: Pose-free Generalizable 3D Gaussian Splatting"
+description: "Method for pose-free generalizable 3D Gaussian Splatting evaluated on LLFF, KITTI, and Waymo datasets. Enables novel view synthesis without known camera poses."
+paper_url: "https://arxiv.org/abs/2403.10147"
+project_url: "https://3d-aigc.github.io/GGRt/"
+github_url: "https://github.com/lifuguan/GGRt_official"
+huggingface_id: ""
+modalities:
+  - RGB
+tasks:
+  - novel-view-synthesis
+  - 3D-gaussian-splatting
+  - pose-estimation
+license: "Not specified"
+size_hint: "Code only (uses LLFF/KITTI/Waymo)"
+tags:
+  - 3DGS
+  - novel-view-synthesis
+  - pose-free
+  - ECCV2024
+download:
+  method: git
+  url: "https://github.com/lifuguan/GGRt_official.git"

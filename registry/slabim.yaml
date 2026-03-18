@@ -1,0 +1,26 @@
+name: slabim
+display_name: "SLABIM: SLAM coupled with BIM"
+description: "Dataset coupling SLAM with Building Information Modeling (BIM). Multi-session rosbags with LiDAR, camera, IMU and corresponding BIM models for indoor mapping."
+paper_url: "https://arxiv.org/abs/2502.16856"
+project_url: "https://github.com/HKUST-Aerial-Robotics/SLABIM"
+github_url: "https://github.com/HKUST-Aerial-Robotics/SLABIM"
+huggingface_id: ""
+modalities:
+  - LiDAR
+  - camera
+  - IMU
+  - BIM
+tasks:
+  - SLAM
+  - BIM-registration
+  - semantic-mapping
+license: "Not specified"
+size_hint: "Multi-session rosbags + BIM models"
+tags:
+  - SLAM
+  - BIM
+  - indoor
+  - HKUST
+download:
+  method: wget
+  url: "https://github.com/HKUST-Aerial-Robotics/SLABIM"

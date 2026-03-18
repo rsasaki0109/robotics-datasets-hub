@@ -1,0 +1,25 @@
+name: hm3d_ovon
+display_name: "HM3D-OVON: Open-Vocabulary Object Goal Navigation"
+description: "Benchmark for open-vocabulary object goal navigation using HM3D 3D scans. Agents must navigate to objects described by arbitrary text, not fixed categories."
+paper_url: "https://arxiv.org/abs/2409.14296"
+project_url: "https://naokiyokoyama.github.io/ovon/"
+github_url: "https://github.com/naokiyokoyama/ovon"
+huggingface_id: "nyokoyama/hm3d_ovon"
+modalities:
+  - RGB-D
+  - 3D-mesh
+  - language
+tasks:
+  - object-goal-navigation
+  - embodied-AI
+  - open-vocabulary
+license: "Matterport ToU (non-commercial)"
+size_hint: "~130 GB (HM3D scenes + episodes)"
+tags:
+  - navigation
+  - embodied-AI
+  - open-vocabulary
+  - habitat
+download:
+  method: huggingface
+  url: "nyokoyama/hm3d_ovon"
