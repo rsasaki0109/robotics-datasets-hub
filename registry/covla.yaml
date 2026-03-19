@@ -1,0 +1,28 @@
+name: covla
+display_name: "CoVLA: Comprehensive Vision-Language-Action Dataset"
+description: "Large-scale vision-language-action dataset for autonomous driving with 80+ hours of driving data, 10k scenes, paired with natural language descriptions and vehicle CAN actions."
+paper_url: "https://arxiv.org/abs/2408.10845"
+project_url: "https://turingmotors.github.io/covla-ad/"
+github_url: ""
+huggingface_id: "turing-motors/CoVLA-Dataset"
+modalities:
+  - vision
+  - language
+  - action
+tasks:
+  - autonomous-driving
+  - vision-language-action
+  - end-to-end-driving
+license: "Non-commercial"
+size_hint: "80+ hours, 10k scenes (~hundreds of GB)"
+tags:
+  - VLA
+  - autonomous-driving
+  - multimodal
+  - turing-motors
+download:
+  method: huggingface
+  url: "turing-motors/CoVLA-Dataset"
+  splits:
+    mini: "mini/*"
+    full: "*"

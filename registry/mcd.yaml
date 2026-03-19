@@ -1,0 +1,26 @@
+name: mcd
+display_name: "MCD: Multi-Campus Dataset for Robot Perception"
+description: "Large-scale multi-campus dataset with multi-LiDAR, camera, IMU, and UWB for SLAM and semantic segmentation across diverse campus environments."
+paper_url: "https://arxiv.org/abs/2403.11496"
+project_url: "https://mcdviral.github.io/"
+github_url: "https://github.com/mcdviral"
+huggingface_id: ""
+modalities:
+  - multi-LiDAR
+  - camera
+  - IMU
+  - UWB
+tasks:
+  - SLAM
+  - semantic-segmentation
+  - multi-modal-perception
+license: "CC BY-NC-SA 4.0"
+size_hint: "200k+ LiDAR scans, 1.5M camera frames, 18 sequences"
+tags:
+  - SLAM
+  - multi-campus
+  - multi-sensor
+  - segmentation
+download:
+  method: wget
+  url: "https://mcdviral.github.io/"
