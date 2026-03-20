@@ -1,0 +1,25 @@
+name: geode
+display_name: "GEODE: Geometrically Degenerate LiDAR SLAM Dataset"
+description: "Multi-LiDAR and stereo camera dataset with 64 trajectories over 64+ km for evaluating LiDAR SLAM robustness in geometrically degenerate environments."
+paper_url: "https://arxiv.org/abs/2409.04961"
+project_url: "https://github.com/PengYu-Team/GEODE_dataset"
+github_url: "https://github.com/PengYu-Team/GEODE_dataset"
+huggingface_id: ""
+modalities:
+  - multi-LiDAR
+  - stereo-camera
+  - IMU
+tasks:
+  - LiDAR-SLAM
+  - geometric-degeneracy
+  - robustness-evaluation
+license: "Not specified"
+size_hint: "64 trajectories / 64+ km"
+tags:
+  - SLAM
+  - degeneracy
+  - multi-LiDAR
+  - robustness
+download:
+  method: gdown
+  url: "https://github.com/PengYu-Team/GEODE_dataset"

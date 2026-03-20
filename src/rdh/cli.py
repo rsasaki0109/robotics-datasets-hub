@@ -118,6 +118,16 @@ def viz(
 
 
 @app.command()
+def dashboard():
+    """Launch the Streamlit web dashboard."""
+    import subprocess
+    import sys
+
+    app_path = Path(__file__).parent / "app.py"
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(app_path)])
+
+
+@app.command()
 def version():
     """Show version."""
     console.print(f"robotics-datasets-hub v{__version__}")
