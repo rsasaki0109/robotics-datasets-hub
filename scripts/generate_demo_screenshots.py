@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate demo screenshots using synthetic CoVLA-like data for README."""
+"""Generate demo screenshots using synthetic data for README."""
 
 from __future__ import annotations
 
@@ -179,10 +179,194 @@ def generate_screenshots() -> None:
             save_path=ARTIFACTS_DIR / "covla_scene_detail.png",
         )
 
-    # 3. CLI demo screenshot (text-based)
+    # 3. MCD-like trajectory demo
+    print("Generating MCD multi-campus trajectory demo ...")
+    _generate_mcd_demo()
+
+    # 4. PoLaRIS maritime detection demo
+    print("Generating PoLaRIS maritime demo ...")
+    _generate_polaris_demo()
+
+    # 5. HM3D-OVON navigation episode demo
+    print("Generating HM3D-OVON episode demo ...")
+    _generate_hm3d_demo()
+
+    # 6. CLI demo screenshot (text-based)
     _generate_cli_screenshot()
 
     print(f"\nAll screenshots saved to {ARTIFACTS_DIR}")
+
+
+def _generate_mcd_demo() -> None:
+    """Generate synthetic MCD multi-campus trajectory visualization."""
+    np.random.seed(123)
+
+    campus_names = [
+        "ntu_day_01", "ntu_day_02", "ntu_night_01",
+        "kth_day_01", "kth_day_02", "snu_day_01",
+    ]
+
+    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+    fig.suptitle("MCD: Multi-Campus Dataset - Trajectories", fontsize=14, fontweight="bold")
+
+    for idx, name in enumerate(campus_names):
+        r, c = divmod(idx, 3)
+        ax = axes[r, c]
+
+        n_pts = 500
+        t = np.linspace(0, 100, n_pts)
+
+        if "ntu" in name:
+            x = np.cumsum(np.random.randn(n_pts) * 0.5 + 0.3)
+            y = np.cumsum(np.random.randn(n_pts) * 0.5 + 0.1)
+        elif "kth" in name:
+            theta = np.linspace(0, 4 * np.pi, n_pts) + np.random.randn(n_pts) * 0.05
+            r_val = 30 + 10 * np.sin(theta * 0.5)
+            x = r_val * np.cos(theta)
+            y = r_val * np.sin(theta)
+        else:
+            x = np.cumsum(np.random.randn(n_pts) * 0.8)
+            y = np.cumsum(np.random.randn(n_pts) * 0.8)
+
+        speed = np.sqrt(np.gradient(x)**2 + np.gradient(y)**2) * 20
+        sc = ax.scatter(x, y, c=speed, s=3, cmap="viridis", alpha=0.8)
+        ax.scatter(x[0], y[0], c="lime", s=60, zorder=5, marker="^", edgecolors="black")
+        ax.scatter(x[-1], y[-1], c="red", s=60, zorder=5, marker="s", edgecolors="black")
+        ax.set_title(name, fontsize=10)
+        ax.set_aspect("equal")
+        ax.grid(True, alpha=0.2)
+        ax.tick_params(labelsize=7)
+
+    fig.colorbar(sc, ax=axes, label="Speed (m/s)", shrink=0.6)
+    plt.tight_layout()
+    plt.savefig(ARTIFACTS_DIR / "mcd_trajectories.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved: {ARTIFACTS_DIR / 'mcd_trajectories.png'}")
+
+
+def _generate_polaris_demo() -> None:
+    """Generate synthetic PoLaRIS maritime detection visualization."""
+    np.random.seed(456)
+
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    fig.suptitle(
+        "PoLaRIS: Maritime Object Detection (RGB / Thermal IR / Radar)",
+        fontsize=14, fontweight="bold",
+    )
+
+    sensor_labels = ["RGB Camera", "Thermal IR (TIR)", "Radar Overlay"]
+
+    for col in range(3):
+        for row in range(2):
+            ax = axes[row, col]
+
+            if col == 0:  # RGB
+                sky = np.tile(np.linspace(0.6, 0.85, 120)[:, None], (1, 200))
+                sea = np.tile(np.linspace(0.15, 0.4, 80)[:, None], (1, 200))
+                img = np.zeros((200, 200, 3))
+                img[:120, :, 2] = sky
+                img[120:, :, 2] = sea
+                img[120:, :, 1] = sea * 0.4
+                # Add synthetic boats
+                for bx, by, bw, bh in [(50, 100, 30, 25), (140, 110, 20, 18)]:
+                    img[by:by+bh, bx:bx+bw, :] = [0.4, 0.3, 0.2]
+                    ax.add_patch(plt.Rectangle((bx, by), bw, bh,
+                                 linewidth=2, edgecolor="lime", facecolor="none"))
+                    ax.text(bx, by-3, "vessel", fontsize=7, color="lime",
+                            bbox=dict(facecolor="black", alpha=0.6, pad=1))
+                ax.imshow(img)
+            elif col == 1:  # Thermal
+                thermal = np.random.rand(200, 200) * 0.3
+                thermal[100:130, 45:85] = 0.8 + np.random.rand(30, 40) * 0.2
+                thermal[105:125, 135:160] = 0.7 + np.random.rand(20, 25) * 0.2
+                ax.imshow(thermal, cmap="inferno")
+                for bx, by, bw, bh in [(45, 100, 40, 30), (135, 105, 25, 20)]:
+                    ax.add_patch(plt.Rectangle((bx, by), bw, bh,
+                                 linewidth=2, edgecolor="cyan", facecolor="none"))
+            elif col == 2:  # Radar
+                radar = np.zeros((200, 200))
+                cx, cy = 100, 100
+                for angle in np.linspace(0, 2*np.pi, 360):
+                    for r_val in range(5, 100):
+                        px = int(cx + r_val * np.cos(angle))
+                        py = int(cy + r_val * np.sin(angle))
+                        if 0 <= px < 200 and 0 <= py < 200:
+                            radar[py, px] = max(radar[py, px], 0.05 * np.exp(-r_val/50))
+                # Add radar returns
+                for rx, ry in [(60, 80), (150, 90)]:
+                    for dx in range(-3, 4):
+                        for dy in range(-3, 4):
+                            if 0 <= rx+dx < 200 and 0 <= ry+dy < 200:
+                                radar[ry+dy, rx+dx] = 0.9
+                ax.imshow(radar, cmap="YlGn")
+                ax.scatter([60, 150], [80, 90], c="red", s=30, marker="x", linewidths=2)
+
+            ax.set_title(f"{sensor_labels[col]} (scene {row+1})", fontsize=9)
+            ax.axis("off")
+
+    plt.tight_layout()
+    plt.savefig(ARTIFACTS_DIR / "polaris_maritime.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved: {ARTIFACTS_DIR / 'polaris_maritime.png'}")
+
+
+def _generate_hm3d_demo() -> None:
+    """Generate synthetic HM3D-OVON navigation episode visualization."""
+    np.random.seed(789)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+    fig.suptitle("HM3D-OVON: Open-Vocabulary Object Goal Navigation", fontsize=14, fontweight="bold")
+
+    # 1. Goal object distribution
+    ax = axes[0]
+    objects = [
+        "chair", "table", "sofa", "bed", "toilet", "tv",
+        "plant", "sink", "refrigerator", "microwave",
+        "book", "clock", "vase", "lamp", "oven",
+    ]
+    counts = sorted(
+        zip(objects, np.random.randint(10, 200, len(objects))),
+        key=lambda x: x[1], reverse=True,
+    )
+    labels, values = zip(*counts[:12])
+    ax.barh(list(labels), list(values), color="steelblue", edgecolor="white")
+    ax.set_xlabel("Episode Count")
+    ax.set_title("Goal Object Distribution")
+    ax.invert_yaxis()
+    ax.grid(True, alpha=0.3, axis="x")
+
+    # 2. Navigation paths (top-down)
+    ax = axes[1]
+    for i in range(5):
+        n_steps = np.random.randint(20, 80)
+        path_x = np.cumsum(np.random.randn(n_steps) * 0.3)
+        path_y = np.cumsum(np.random.randn(n_steps) * 0.3)
+        color = plt.cm.Set2(i / 5)
+        ax.plot(path_x, path_y, "-", color=color, linewidth=1.5, alpha=0.7)
+        ax.scatter(path_x[0], path_y[0], c="green", s=40, zorder=5, marker="^")
+        ax.scatter(path_x[-1], path_y[-1], c="red", s=60, zorder=5, marker="*")
+    ax.set_title("Navigation Paths (5 episodes)")
+    ax.set_xlabel("X (m)")
+    ax.set_ylabel("Y (m)")
+    ax.grid(True, alpha=0.3)
+    ax.set_aspect("equal")
+
+    # 3. Geodesic distance distribution
+    ax = axes[2]
+    distances = np.random.exponential(scale=5, size=500) + 1
+    ax.hist(distances, bins=30, color="coral", edgecolor="white", alpha=0.8)
+    ax.axvline(np.mean(distances), color="red", linestyle="--",
+               label=f"Mean: {np.mean(distances):.1f}m")
+    ax.set_xlabel("Geodesic Distance (m)")
+    ax.set_ylabel("Count")
+    ax.set_title("Goal Distance Distribution")
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig(ARTIFACTS_DIR / "hm3d_ovon_episodes.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved: {ARTIFACTS_DIR / 'hm3d_ovon_episodes.png'}")
 
 
 def _generate_cli_screenshot() -> None:

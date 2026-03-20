@@ -144,6 +144,23 @@ def demo(
         else:
             console.print("Plotting multi-scene trajectory overview ...")
             viz_multi_scene_trajectories(dataset_dir, save_path=save)
+    elif name == "polaris":
+        from rdh.datasets.polaris import viz_detection_annotations, viz_sensor_comparison
+
+        console.print("PoLaRIS: multi-sensor maritime visualization ...")
+        viz_sensor_comparison(dataset_dir, save_path=save)
+        viz_detection_annotations(dataset_dir, save_path=save)
+    elif name == "mcd":
+        from rdh.datasets.mcd import viz_sequence_stats, viz_trajectories
+
+        console.print("MCD: multi-campus trajectory visualization ...")
+        viz_trajectories(dataset_dir, save_path=save)
+        viz_sequence_stats(dataset_dir)
+    elif name == "hm3d_ovon":
+        from rdh.datasets.hm3d_ovon import viz_episode_overview
+
+        console.print("HM3D-OVON: episode overview ...")
+        viz_episode_overview(dataset_dir, save_path=save)
     else:
         console.print(f"[yellow]No specific demo for '{name}'. Using generic viz.[/]")
         from rdh.visualizer import viz_images
