@@ -4,6 +4,8 @@ One-command download, convert, and visualize curated AI/Robotics datasets.
 
 AI/ロボティクス研究で使える厳選データセットを、1コマンドでダウンロード・可視化・デモ再生できるCLIツール。
 
+![CLI Demo](docs/images/cli_demo.png)
+
 ## Install / インストール
 
 ```bash
@@ -28,11 +30,24 @@ rdh list navigation
 rdh info covla
 
 # Download a dataset / ダウンロード
-rdh download covla --split mini --output ./data/
+rdh download covla --split metadata --output ./data/
 
-# Visualize samples / 可視化
-rdh viz covla --samples 5
+# Dataset-specific demo visualization / データセット固有デモ
+rdh demo covla --data-dir ./data/
+
+# Visualize a single scene / シーン個別可視化
+rdh demo covla --scene 2024-demo-left_turn --save output.png
 ```
+
+## Demo: CoVLA Vision-Language-Action Visualization
+
+### Multi-Scene Trajectory Overview (speed-colored)
+
+![CoVLA Multi Trajectories](docs/images/covla_multi_trajectories.png)
+
+### Single Scene Detail (trajectory, speed, steering, acceleration, pedals, language annotations)
+
+![CoVLA Scene Detail](docs/images/covla_scene_detail.png)
 
 ## Supported Datasets / 対応データセット
 

@@ -51,7 +51,11 @@ def _download_huggingface(entry: DatasetEntry, dest: Path, split: str | None) ->
     repo_id = entry.huggingface_id or entry.download.get("url", "")
     kwargs: dict = {"repo_id": repo_id, "repo_type": "dataset", "local_dir": str(dest)}
     if split and "splits" in entry.download and split in entry.download["splits"]:
-        kwargs["allow_patterns"] = entry.download["splits"][split]
+        patterns = entry.download["splits"][split]
+        if isinstance(patterns, str):
+            kwargs["allow_patterns"] = [p.strip() for p in patterns.split(",")]
+        else:
+            kwargs["allow_patterns"] = patterns
     snapshot_download(**kwargs)
 
 
