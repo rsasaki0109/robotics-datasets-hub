@@ -45,5 +45,5 @@ def test_entry_from_yaml():
     yaml_path = REGISTRY_DIR / "covla.yaml"
     entry = DatasetEntry.from_yaml(yaml_path)
     assert entry.name == "covla"
-    assert entry.huggingface_id == "turing-motors/CoVLA-Dataset"
+    assert entry.huggingface_id == "turing-motors/CoVLA-Dataset-Mini"
     assert entry.download["method"] == "huggingface"

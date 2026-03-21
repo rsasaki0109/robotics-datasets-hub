@@ -118,6 +118,40 @@ def viz(
 
 
 @app.command()
+def demo(
+    name: str = typer.Argument(..., help="Dataset name (e.g. covla)"),
+    data_dir: Path = typer.Option(Path("./data"), "--data-dir", "-d", help="Data directory"),
+    scene: Optional[str] = typer.Option(None, "--scene", "-s", help="Scene ID"),
+    save: Optional[Path] = typer.Option(None, "--save", help="Save figure to path"),
+):
+    """Run dataset-specific demo visualization."""
+    dataset_dir = data_dir / name
+    if not dataset_dir.exists():
+        console.print(f"[red]Data directory not found: {dataset_dir}[/]")
+        console.print(f"Run [cyan]rdh download {name} --split metadata[/] first.")
+        raise typer.Exit(1)
+
+    if name == "covla":
+        from rdh.datasets.covla import list_scenes, viz_multi_scene_trajectories, viz_scene
+
+        scenes = list_scenes(dataset_dir)
+        if not scenes:
+            raise typer.Exit(1)
+        console.print(f"[green]Found {len(scenes)} scenes[/]")
+
+        if scene:
+            viz_scene(dataset_dir, scene, save_path=save)
+        else:
+            console.print("Plotting multi-scene trajectory overview ...")
+            viz_multi_scene_trajectories(dataset_dir, save_path=save)
+    else:
+        console.print(f"[yellow]No specific demo for '{name}'. Using generic viz.[/]")
+        from rdh.visualizer import viz_images
+
+        viz_images(dataset_dir)
+
+
+@app.command()
 def dashboard():
     """Launch the Streamlit web dashboard."""
     import subprocess

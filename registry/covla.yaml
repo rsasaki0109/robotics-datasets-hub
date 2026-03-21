@@ -4,7 +4,7 @@ description: "Large-scale vision-language-action dataset for autonomous driving 
 paper_url: "https://arxiv.org/abs/2408.10845"
 project_url: "https://turingmotors.github.io/covla-ad/"
 github_url: ""
-huggingface_id: "turing-motors/CoVLA-Dataset"
+huggingface_id: "turing-motors/CoVLA-Dataset-Mini"
 modalities:
   - vision
   - language
@@ -14,15 +14,17 @@ tasks:
   - vision-language-action
   - end-to-end-driving
 license: "Non-commercial"
-size_hint: "80+ hours, 10k scenes (~hundreds of GB)"
+size_hint: "Mini: 50 scenes (~75GB full, ~200MB metadata-only), Full: 10k scenes"
 tags:
   - VLA
   - autonomous-driving
   - multimodal
   - turing-motors
+  - WACV2025
 download:
   method: huggingface
-  url: "turing-motors/CoVLA-Dataset"
+  url: "turing-motors/CoVLA-Dataset-Mini"
   splits:
-    mini: "mini/*"
+    metadata: "*.jsonl,*.csv,*.json,*.md"
+    video: "video_samples/*.mp4"
     full: "*"
