@@ -44,6 +44,21 @@ rdh viz covla --samples 5
 | **MCD** | Multi-modal SLAM | Multi-LiDAR, Camera, IMU, UWB | [arXiv:2403.11496](https://arxiv.org/abs/2403.11496) |
 | **GGRt** | Pose-free 3D Gaussian Splatting | RGB | [arXiv:2403.10147](https://arxiv.org/abs/2403.10147) |
 | **SLABIM** | SLAM + BIM | LiDAR, Camera, IMU, BIM | [arXiv:2502.16856](https://arxiv.org/abs/2502.16856) |
+| **HK_MEMS** | LiDAR SLAM (Extreme) | MEMS LiDAR, Camera, GNSS, INS | [JFR](https://onlinelibrary.wiley.com/doi/10.1002/rob.70136) |
+| **GEODE** | LiDAR SLAM (Degeneracy) | Multi-LiDAR, Stereo, IMU | [arXiv:2409.04961](https://arxiv.org/abs/2409.04961) |
+
+## Web Dashboard / ダッシュボード
+
+```bash
+pip install -e ".[dashboard]"
+rdh dashboard
+```
+
+ブラウザでデータセットの検索・フィルタリング・詳細閲覧ができます。
+
+## Jupyter Notebook
+
+`notebooks/01_quickstart.ipynb` でインタラクティブにデータセットを探索できます。
 
 ## Adding a Dataset / データセットの追加
 

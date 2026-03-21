@@ -1,0 +1,26 @@
+name: hk_mems
+display_name: "HK_MEMS_Dataset: Multi-LiDAR Extreme Mapping"
+description: "MEMS LiDAR dataset for SLAM in degenerate and dynamic urban scenarios in Hong Kong. 187 minutes of driving across 75.4 km with MEMS LiDAR, camera, GNSS, and INS."
+paper_url: "https://onlinelibrary.wiley.com/doi/10.1002/rob.70136"
+project_url: "https://github.com/RuanJY/HK_MEMS_Dataset"
+github_url: "https://github.com/RuanJY/HK_MEMS_Dataset"
+huggingface_id: ""
+modalities:
+  - MEMS-LiDAR
+  - camera
+  - GNSS
+  - INS
+tasks:
+  - LiDAR-SLAM
+  - urban-mapping
+  - degenerate-environments
+license: "Not specified"
+size_hint: "187 min / 75.4 km driving data"
+tags:
+  - SLAM
+  - MEMS-LiDAR
+  - Hong-Kong
+  - urban
+download:
+  method: wget
+  url: "https://github.com/RuanJY/HK_MEMS_Dataset"

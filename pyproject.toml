@@ -36,6 +36,9 @@ dev = [
     "pytest>=7.0",
     "ruff>=0.4",
 ]
+dashboard = [
+    "streamlit>=1.30",
+]
 viz3d = [
     "open3d>=0.18",
     "plotly>=5.18",
