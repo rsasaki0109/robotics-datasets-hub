@@ -31,6 +31,8 @@ def download_dataset(entry: DatasetEntry, output_dir: Path, split: str | None = 
         _download_gdown(url, dest)
     elif method == "git":
         _download_git(url, dest)
+    elif method == "s3":
+        _download_s3(entry, dest, split)
     else:
         _download_wget(url, dest)
 
@@ -74,6 +76,29 @@ def _download_git(url: str, dest: Path) -> None:
         subprocess.run(["git", "-C", str(dest), "pull"], check=True)
     else:
         subprocess.run(["git", "clone", "--depth", "1", url, str(dest)], check=True)
+
+
+def _download_s3(entry: DatasetEntry, dest: Path, split: str | None) -> None:
+    """Download from AWS S3 (no authentication required for public buckets)."""
+    base_url = entry.download.get("url", "")
+    if split and "splits" in entry.download and split in entry.download["splits"]:
+        files = entry.download["splits"][split]
+        if isinstance(files, str):
+            for f in files.split(","):
+                f = f.strip()
+                s3_url = base_url + f
+                local_path = dest / Path(f).name
+                console.print(f"  Downloading {s3_url} ...")
+                subprocess.run(
+                    ["aws", "s3", "cp", s3_url, str(local_path), "--no-sign-request"],
+                    check=True,
+                )
+    else:
+        console.print(f"  Syncing {base_url} ...")
+        subprocess.run(
+            ["aws", "s3", "sync", base_url, str(dest), "--no-sign-request"],
+            check=True,
+        )
 
 
 def _download_wget(url: str, dest: Path) -> None:

@@ -49,6 +49,18 @@ rdh demo covla --scene 2024-demo-left_turn --save output.png
 
 ![CoVLA Scene Detail](docs/images/covla_scene_detail.png)
 
+## Demo: Pohang Canal Real Data (GPS, AHRS, Sensor Config)
+
+**Real sensor data** downloaded from AWS S3 (no authentication required):
+
+![Pohang Canal Real Data](docs/images/pohang_canal_real_data.png)
+
+```bash
+# Download navigation data only (21MB)
+rdh download polaris --split nav-only --output ./data/
+rdh demo polaris --data-dir ./data/polaris
+```
+
 ## Demo: PoLaRIS Maritime Multi-Sensor Detection
 
 ![PoLaRIS Maritime](docs/images/polaris_maritime.png)

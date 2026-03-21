@@ -145,11 +145,18 @@ def demo(
             console.print("Plotting multi-scene trajectory overview ...")
             viz_multi_scene_trajectories(dataset_dir, save_path=save)
     elif name == "polaris":
-        from rdh.datasets.polaris import viz_detection_annotations, viz_sensor_comparison
+        nav_dir = dataset_dir / "navigation"
+        if nav_dir.exists():
+            from rdh.datasets.pohang_canal import viz_pohang_canal
 
-        console.print("PoLaRIS: multi-sensor maritime visualization ...")
-        viz_sensor_comparison(dataset_dir, save_path=save)
-        viz_detection_annotations(dataset_dir, save_path=save)
+            console.print("PoLaRIS/Pohang Canal: real sensor data visualization ...")
+            viz_pohang_canal(dataset_dir, save_path=save)
+        else:
+            from rdh.datasets.polaris import viz_detection_annotations, viz_sensor_comparison
+
+            console.print("PoLaRIS: multi-sensor maritime visualization ...")
+            viz_sensor_comparison(dataset_dir, save_path=save)
+            viz_detection_annotations(dataset_dir, save_path=save)
     elif name == "mcd":
         from rdh.datasets.mcd import viz_sequence_stats, viz_trajectories
 
