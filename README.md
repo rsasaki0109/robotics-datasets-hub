@@ -49,6 +49,18 @@ rdh demo covla --scene 2024-demo-left_turn --save output.png
 
 ![CoVLA Scene Detail](docs/images/covla_scene_detail.png)
 
+## Demo: PoLaRIS Maritime Multi-Sensor Detection
+
+![PoLaRIS Maritime](docs/images/polaris_maritime.png)
+
+## Demo: MCD Multi-Campus Trajectories
+
+![MCD Trajectories](docs/images/mcd_trajectories.png)
+
+## Demo: HM3D-OVON Navigation Episodes
+
+![HM3D-OVON Episodes](docs/images/hm3d_ovon_episodes.png)
+
 ## Supported Datasets / 対応データセット
 
 | Name | Task | Modalities | Paper |
