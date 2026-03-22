@@ -1,6 +1,6 @@
 name: polaris
 display_name: "PoLaRIS: Pohang Canal Maritime Object Detection & Tracking"
-description: "Multi-sensor maritime dataset with RGB, thermal infrared (TIR), radar, and LiDAR for object detection and tracking in canal environments."
+description: "Multi-sensor maritime dataset with RGB, thermal infrared (TIR), radar, and LiDAR for object detection and tracking in canal environments. Base data from Pohang Canal Dataset on AWS S3."
 paper_url: "https://arxiv.org/abs/2412.06192"
 project_url: "https://sites.google.com/view/polaris-dataset"
 github_url: "https://github.com/sparolab/PoLaRIS"
@@ -15,12 +15,18 @@ tasks:
   - object-tracking
   - maritime
 license: "Not specified"
-size_hint: "~360k labeled images"
+size_hint: "~360k labeled images (base data: ~230GB per sequence)"
 tags:
   - maritime
   - multi-sensor
   - detection
   - tracking
+  - ICRA2025
+  - pohang-canal
 download:
-  method: gdown
-  url: "https://sites.google.com/view/polaris-dataset"
+  method: s3
+  url: "s3://pohang-canal-dataset/"
+  splits:
+    nav-only: "pohang00/calibration.zip,pohang00/navigation.zip"
+    pohang00: "pohang00/"
+    pohang01: "pohang01/"
