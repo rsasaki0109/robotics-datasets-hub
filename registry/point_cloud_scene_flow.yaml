@@ -1,0 +1,23 @@
+name: point_cloud_scene_flow
+display_name: "Awesome Point Cloud Scene Flow"
+description: "Curated list of point cloud scene flow estimation methods, datasets, and benchmarks. Covers 3D motion estimation from sequential point clouds."
+paper_url: ""
+project_url: "https://github.com/MaxChanger/awesome-point-cloud-scene-flow"
+github_url: "https://github.com/MaxChanger/awesome-point-cloud-scene-flow"
+huggingface_id: ""
+modalities:
+  - point-cloud
+  - LiDAR
+tasks:
+  - scene-flow-estimation
+  - 3D-motion-estimation
+license: "Not specified"
+size_hint: "Curated list (no data files)"
+tags:
+  - awesome-list
+  - scene-flow
+  - point-cloud
+  - survey
+download:
+  method: git
+  url: "https://github.com/MaxChanger/awesome-point-cloud-scene-flow.git"
