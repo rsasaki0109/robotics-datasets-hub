@@ -13,7 +13,7 @@ tasks:
   - 3D-scene-understanding
   - open-vocabulary-segmentation
   - zero-shot-3D
-license: "Not specified"
+license: "Apache-2.0"
 size_hint: "Code + pretrained models (~2GB)"
 tags:
   - open-vocabulary
