@@ -17,7 +17,7 @@ tasks:
   - optical-flow-estimation
   - depth-estimation
   - robot-learning
-license: "Not specified"
+license: "CC BY 4.0"
 size_hint: "~4.5TB (simulation, 500+ environments)"
 tags:
   - simulation

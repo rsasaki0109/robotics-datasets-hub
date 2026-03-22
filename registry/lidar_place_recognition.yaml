@@ -12,7 +12,7 @@ tasks:
   - place-recognition
   - loop-closure
   - re-localization
-license: "Not specified"
+license: "CC0-1.0"
 size_hint: "Curated list (no data files)"
 tags:
   - awesome-list
