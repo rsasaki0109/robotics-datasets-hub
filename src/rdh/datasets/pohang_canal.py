@@ -91,6 +91,9 @@ def viz_pohang_canal(
 
     x, y = latlon_to_local(gps[:, 1], gps[:, 2])
     t_gps = gps[:, 0] - gps[0, 0]
+    # Avoid divide-by-zero in gradient when consecutive timestamps are equal
+    dt = np.diff(t_gps)
+    dt[dt == 0] = np.nan
 
     has_ahrs = ahrs_path.exists()
     has_calib = calib_path.exists()
@@ -109,7 +112,9 @@ def viz_pohang_canal(
     # 1. GPS trajectory
     ax = axes_flat[plot_idx]
     plot_idx += 1
-    speed_ms = np.sqrt(np.gradient(x, t_gps)**2 + np.gradient(y, t_gps)**2)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        speed_ms = np.sqrt(np.gradient(x, t_gps)**2 + np.gradient(y, t_gps)**2)
+    speed_ms = np.nan_to_num(speed_ms, nan=0.0)
     speed_ms = np.clip(speed_ms, 0, 15)
     sc = ax.scatter(x, y, c=speed_ms, s=2, cmap="RdYlGn_r", alpha=0.8)
     ax.scatter(x[0], y[0], c="blue", s=80, zorder=5, marker="^", label="Start")
