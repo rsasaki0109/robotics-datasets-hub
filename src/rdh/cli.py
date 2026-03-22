@@ -127,9 +127,13 @@ def demo(
     """Run dataset-specific demo visualization."""
     dataset_dir = data_dir / name
     if not dataset_dir.exists():
-        console.print(f"[red]Data directory not found: {dataset_dir}[/]")
-        console.print(f"Run [cyan]rdh download {name} --split metadata[/] first.")
-        raise typer.Exit(1)
+        # Fall back to data_dir itself if it looks like the dataset directory
+        if data_dir.exists() and data_dir.name != name:
+            dataset_dir = data_dir
+        else:
+            console.print(f"[red]Data directory not found: {dataset_dir}[/]")
+            console.print(f"Run [cyan]rdh download {name} --split metadata[/] first.")
+            raise typer.Exit(1)
 
     if name == "covla":
         from rdh.datasets.covla import list_scenes, viz_multi_scene_trajectories, viz_scene
