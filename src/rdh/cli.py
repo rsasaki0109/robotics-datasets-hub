@@ -176,6 +176,93 @@ def demo(
 
 
 @app.command()
+def compare(
+    names: Optional[str] = typer.Argument(
+        None, help="Comma-separated dataset names (default: all)"
+    ),
+    save: Optional[Path] = typer.Option(None, "--save", help="Save comparison chart"),
+):
+    """Compare datasets side-by-side with radar chart and summary table."""
+    import matplotlib
+
+    matplotlib.use("Agg" if save else matplotlib.get_backend())
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    reg = _registry()
+    if names:
+        entries = [reg.get(n.strip()) for n in names.split(",")]
+        entries = [e for e in entries if e is not None]
+    else:
+        entries = reg.all()
+
+    if not entries:
+        console.print("[yellow]No datasets to compare.[/]")
+        raise typer.Exit()
+
+    # Summary table
+    table = Table(title="Dataset Comparison", show_lines=True)
+    table.add_column("", style="bold")
+    for e in entries:
+        table.add_column(e.name, style="cyan", no_wrap=True)
+
+    rows = {
+        "Modalities": [str(len(e.modalities)) for e in entries],
+        "Tasks": [str(len(e.tasks)) for e in entries],
+        "License": [e.license[:20] for e in entries],
+        "DL Method": [e.download.get("method", "?") for e in entries],
+        "Size": [e.size_hint[:30] if e.size_hint else "N/A" for e in entries],
+        "Has Paper": ["Yes" if e.paper_url else "No" for e in entries],
+        "Has GitHub": ["Yes" if e.github_url else "No" for e in entries],
+        "HuggingFace": ["Yes" if e.huggingface_id else "No" for e in entries],
+    }
+    for label, vals in rows.items():
+        table.add_row(label, *vals)
+    console.print(table)
+
+    # Radar chart
+    all_modalities = sorted({m for e in entries for m in e.modalities})
+    all_tasks = sorted({t for e in entries for t in e.tasks})
+
+    categories = ["Modalities", "Tasks", "Paper", "GitHub", "HuggingFace", "Tags"]
+    n_cats = len(categories)
+    angles = np.linspace(0, 2 * np.pi, n_cats, endpoint=False).tolist()
+    angles += angles[:1]
+
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+    colors = plt.cm.Set2(np.linspace(0, 1, len(entries)))
+
+    for idx, entry in enumerate(entries):
+        values = [
+            len(entry.modalities),
+            len(entry.tasks),
+            1 if entry.paper_url else 0,
+            1 if entry.github_url else 0,
+            1 if entry.huggingface_id else 0,
+            len(entry.tags),
+        ]
+        max_vals = [len(all_modalities), len(all_tasks), 1, 1, 1, 10]
+        normalized = [v / m if m > 0 else 0 for v, m in zip(values, max_vals)]
+        normalized += normalized[:1]
+        ax.plot(angles, normalized, "o-", color=colors[idx], linewidth=2, label=entry.name)
+        ax.fill(angles, normalized, color=colors[idx], alpha=0.1)
+
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories, fontsize=9)
+    ax.set_title("Dataset Feature Comparison", fontsize=14, fontweight="bold", pad=20)
+    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1), fontsize=8)
+
+    plt.tight_layout()
+    if save:
+        save.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(save, dpi=150, bbox_inches="tight")
+        console.print(f"[green]Saved:[/] {save}")
+    else:
+        plt.show()
+    plt.close()
+
+
+@app.command()
 def dashboard():
     """Launch the Streamlit web dashboard."""
     import subprocess

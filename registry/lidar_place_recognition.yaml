@@ -1,0 +1,24 @@
+name: lidar_place_recognition
+display_name: "Awesome LiDAR Place Recognition"
+description: "Curated list of LiDAR-based place recognition methods, datasets, and benchmarks. Covers point cloud retrieval, loop closure, and re-localization."
+paper_url: ""
+project_url: "https://github.com/hogyun2/awesome-lidar-place-recognition"
+github_url: "https://github.com/hogyun2/awesome-lidar-place-recognition"
+huggingface_id: ""
+modalities:
+  - LiDAR
+  - point-cloud
+tasks:
+  - place-recognition
+  - loop-closure
+  - re-localization
+license: "Not specified"
+size_hint: "Curated list (no data files)"
+tags:
+  - awesome-list
+  - place-recognition
+  - LiDAR
+  - survey
+download:
+  method: git
+  url: "https://github.com/hogyun2/awesome-lidar-place-recognition.git"

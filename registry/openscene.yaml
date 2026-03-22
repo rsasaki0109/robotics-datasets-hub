@@ -1,0 +1,25 @@
+name: openscene
+display_name: "OpenScene: 3D Scene Understanding with Open Vocabularies"
+description: "Open-vocabulary 3D scene understanding that co-embeds 3D points with text and image features using CLIP, enabling zero-shot 3D semantic segmentation."
+paper_url: "https://arxiv.org/abs/2211.15654"
+project_url: "https://pengsongyou.github.io/openscene"
+github_url: "https://github.com/pengsongyou/openscene"
+huggingface_id: ""
+modalities:
+  - 3D-point-cloud
+  - RGB
+  - language
+tasks:
+  - 3D-scene-understanding
+  - open-vocabulary-segmentation
+  - zero-shot-3D
+license: "Not specified"
+size_hint: "Code + pretrained models (~2GB)"
+tags:
+  - open-vocabulary
+  - CLIP
+  - 3D-segmentation
+  - CVPR2023
+download:
+  method: git
+  url: "https://github.com/pengsongyou/openscene.git"
