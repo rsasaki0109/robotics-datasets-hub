@@ -1,0 +1,29 @@
+name: tartanair
+display_name: "TartanAir V2: Large-Scale Multi-Modal Dataset for Robot Learning"
+description: "Large-scale multi-modal simulation dataset for robot learning with stereo RGB, depth, segmentation, optical flow, LiDAR, and IMU across diverse environments."
+paper_url: "https://arxiv.org/abs/2306.06644"
+project_url: "https://tartanair.org/"
+github_url: "https://github.com/castacks/tartanairv2"
+huggingface_id: ""
+modalities:
+  - stereo-RGB
+  - depth
+  - segmentation
+  - optical-flow
+  - LiDAR
+  - IMU
+tasks:
+  - visual-SLAM
+  - optical-flow-estimation
+  - depth-estimation
+  - robot-learning
+license: "Not specified"
+size_hint: "~4.5TB (simulation, 500+ environments)"
+tags:
+  - simulation
+  - multi-modal
+  - AirSim
+  - CMU
+download:
+  method: wget
+  url: "https://tartanair.org/"

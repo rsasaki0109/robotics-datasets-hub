@@ -1,0 +1,26 @@
+name: nuplan
+display_name: "nuPlan: Autonomous Driving Planning Benchmark"
+description: "Large-scale autonomous driving planning dataset and benchmark by Motional. 1500 hours of driving data with HD maps, LiDAR, cameras for closed-loop planning evaluation."
+paper_url: "https://arxiv.org/abs/2106.11810"
+project_url: "https://www.nuscenes.org/nuplan"
+github_url: "https://github.com/motional/nuplan-devkit"
+huggingface_id: ""
+modalities:
+  - LiDAR
+  - camera
+  - HD-map
+  - vehicle-state
+tasks:
+  - motion-planning
+  - autonomous-driving
+  - closed-loop-simulation
+license: "CC BY-NC-SA 4.0"
+size_hint: "1500 hours, ~20TB"
+tags:
+  - planning
+  - autonomous-driving
+  - Motional
+  - nuscenes
+download:
+  method: wget
+  url: "https://www.nuscenes.org/nuplan"
